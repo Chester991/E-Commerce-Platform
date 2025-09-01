@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Ecommerce Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🛒 Simple Store</div>
+                <div class="cart-info">
+                    <div class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+        </div>
+
+        <div id="errorMessage"></div>
+        <div id="successMessage"></div>
+
+        <section class="products-section">
+            <h2 class="section-title">Our Products</h2>
+            <div id="productsGrid" class="products-grid">
+                <div class="loading">Loading products...</div>
+            </div>
+        </section>
+
+        <section class="admin-panel">
+            <h2 class="section-title">Admin Panel - Add Product</h2>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label for="productName">Product Name:</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description:</label>
+                    <textarea id="productDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Price (Rs):</label>
+                    <input type="number" id="productPrice" step="1" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="productStock">Stock Quantity:</label>
+                    <input type="number" id="productStock" min="0" required>
+                </div>
+                <button type="submit" class="btn admin-btn">Add Product</button>
+            </form>
+        </section>
+    </div>
+
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="close-cart" onclick="toggleCart()">&times;</button>
+            </div>
+            <div id="cartItems"></div>
+            <div id="cartTotal" class="cart-total"></div>
+            <button class="btn checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+
+    <script src = "script.js"></script>
+</body>
+</html>
