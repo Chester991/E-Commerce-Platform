@@ -1,6 +1,7 @@
 let products = [];
 let cart = [];
-const API_BASE = 'http://localhost:3000/api';
+// Use relative URLs so it works both locally and on Render
+const API_BASE = '/api';
 
 document.addEventListener('DOMContentLoaded', function () {
     loadProducts();
