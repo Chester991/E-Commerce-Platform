@@ -163,20 +163,25 @@ app.delete('/api/products/:id', async (req, res) => {
 
 app.post('/api/orders', async (req, res) => {
     try {
+        console.log('Order request received:', req.body);
         const { items } = req.body;
         if (!items || items.length == 0) {
+            console.log('Order failed: Cart is empty');
             return res.status(400).json({ message: 'Cart is Empty !' })
         }
 
         let total = 0;
         const orderItems = [];
         for (let item of items) {
+            console.log('Processing item:', item);
             const product = await Product.findById(item.productId);
 
             if (!product) {
+                console.log('Product not found:', item.productId);
                 return res.status(400).json({ message: `Product Not Found` });
             }
             if (product.stock < item.quantity) {
+                console.log('Insufficient stock for product:', product.name);
                 return res.status(400).json({
                     message: `Sorry only ${product.stock} ${product.name} in stock`
                 });
@@ -192,17 +197,22 @@ app.post('/api/orders', async (req, res) => {
             });
         }
 
+        console.log('Creating order with items:', orderItems);
+        console.log('Order total:', total);
+
         const order = new Order({
             items: orderItems,
             total: total
         });
 
         const savedOrder = await order.save();
+        console.log('Order saved successfully:', savedOrder._id);
 
         for (let item of items) {
             const product = await Product.findById(item.productId);
             product.stock = product.stock - item.quantity;
             await product.save();
+            console.log('Updated stock for product:', product.name, 'New stock:', product.stock);
         }
         res.status(201).json(savedOrder);
     } catch (err) {
